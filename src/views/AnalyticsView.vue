@@ -1,18 +1,18 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 lg:py-12 xl:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Analytics Dashboard</h1>
-        <p class="text-gray-600 dark:text-gray-300">Monitor your chatbot performance and user interactions</p>
+      <div class="mb-8 lg:mb-12 xl:mb-16">
+        <h1 class="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-900 dark:text-white mb-2 lg:mb-4">Analytics Dashboard</h1>
+        <p class="text-gray-600 dark:text-gray-300 text-base lg:text-lg xl:text-xl">Monitor your chatbot performance and user interactions</p>
       </div>
 
       <!-- Metrics Overview -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 xl:gap-10 mb-8 lg:mb-12 xl:mb-16">
         <div
           v-for="(metric, index) in metrics"
           :key="metric.title"
-          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all duration-200 animate-slide-up"
+          class="metric-card animate-slide-up"
           :style="{ animationDelay: `${index * 100}ms` }"
         >
           <div class="flex items-center justify-between">
@@ -43,13 +43,13 @@
       <!-- Charts Section -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <!-- Conversations Chart -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 animate-slide-left">
+        <div class="chart-card animate-slide-left">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Conversations Over Time</h3>
           <div class="h-64 flex items-end justify-between space-x-2">
             <div
               v-for="(bar, index) in conversationData"
               :key="index"
-              class="bg-gradient-vue rounded-t flex-1 transition-all duration-500 hover:opacity-80"
+              class="chart-bar"
               :style="{ height: `${bar.value}%`, animationDelay: `${index * 100}ms` }"
               :title="`${bar.label}: ${bar.count} conversations`"
             ></div>
@@ -60,7 +60,7 @@
         </div>
 
         <!-- User Satisfaction -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 animate-slide-right">
+        <div class="satisfaction-card animate-slide-right">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">User Satisfaction</h3>
           <div class="relative h-64 flex items-center justify-center">
             <!-- Circular Progress -->
@@ -106,7 +106,7 @@
       </div>
 
       <!-- Recent Interactions -->
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg animate-fade-in">
+      <div class="interactions-card animate-fade-in">
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Interactions</h3>
         </div>
@@ -135,7 +135,7 @@
               <tr
                 v-for="interaction in recentInteractions"
                 :key="interaction.id"
-                class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                class="interaction-row"
               >
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
@@ -380,5 +380,184 @@ onMounted(() => {
 
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out;
+}
+
+/* Enhanced Hover Effects */
+
+/* Metric Cards */
+.metric-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.dark .metric-card {
+  background-color: rgb(31 41 55);
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(65, 184, 131, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.metric-card:hover::before {
+  left: 100%;
+}
+
+.metric-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(65, 184, 131, 0.15);
+  border: 1px solid rgba(65, 184, 131, 0.2);
+}
+
+.dark .metric-card:hover {
+  box-shadow: 0 20px 40px rgba(79, 192, 141, 0.15);
+  border-color: rgba(79, 192, 141, 0.2);
+}
+
+/* Chart Cards */
+.chart-card, .satisfaction-card, .interactions-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .chart-card, .dark .satisfaction-card, .dark .interactions-card {
+  background-color: rgb(31 41 55);
+}
+
+.chart-card:hover, .satisfaction-card:hover, .interactions-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.dark .chart-card:hover, .dark .satisfaction-card:hover, .dark .interactions-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Chart Bars */
+.chart-bar {
+  background: linear-gradient(135deg, #41b883, #4fc08d);
+  border-radius: 0.25rem 0.25rem 0 0;
+  flex: 1;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+}
+
+.chart-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.chart-bar:hover::before {
+  opacity: 1;
+}
+
+.chart-bar:hover {
+  transform: scaleY(1.05) scaleX(1.1);
+  box-shadow: 0 8px 25px rgba(65, 184, 131, 0.3);
+  filter: brightness(1.1);
+}
+
+/* Satisfaction Card Special Effect */
+.satisfaction-card:hover svg circle:last-of-type {
+  filter: drop-shadow(0 0 8px rgba(65, 184, 131, 0.5));
+}
+
+/* Interaction Rows */
+.interaction-row {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.interaction-row:hover {
+  background: linear-gradient(90deg, rgba(65, 184, 131, 0.05), rgba(79, 192, 141, 0.05));
+  transform: translateX(4px);
+  box-shadow: inset 4px 0 0 #41b883;
+}
+
+.dark .interaction-row:hover {
+  background: linear-gradient(90deg, rgba(79, 192, 141, 0.05), rgba(65, 184, 131, 0.05));
+  box-shadow: inset 4px 0 0 #4fc08d;
+}
+
+/* Pulse Animation for Active Elements */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.metric-card:hover .text-2xl {
+  animation: pulse 2s infinite;
+  color: #41b883;
+}
+
+.dark .metric-card:hover .text-2xl {
+  color: #4fc08d;
+}
+
+/* Glow Effect for Icons */
+.metric-card:hover [class*="icon"] {
+  filter: drop-shadow(0 0 8px currentColor);
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Loading Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.chart-card::after, .satisfaction-card::after, .interactions-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.chart-card:hover::after, .satisfaction-card:hover::after, .interactions-card:hover::after {
+  transform: translateX(100%);
 }
 </style>
