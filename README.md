@@ -1,4 +1,4 @@
-e# 🤖 SmartFlow Chat
+# SmartFlow Chat
 
 <div align="center">
 
