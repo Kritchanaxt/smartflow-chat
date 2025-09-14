@@ -30,18 +30,6 @@
 - **Conditional Logic**: Create branching workflows based on user inputs and system conditions
 - **Real-time Monitoring**: Track workflow execution in real-time with detailed logs and analytics
 
-### 🎨 Modern UI/UX
-- **Vue.js Inspired Design**: Beautiful and intuitive interface following Vue.js design principles
-- **Dark/Light Mode**: Seamless theme switching with smooth animations
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Custom Animations**: Smooth transitions and micro-interactions for enhanced user experience
-
-### 📊 Analytics & Monitoring
-- **Real-time Dashboard**: Monitor conversations, users, and system performance
-- **Interactive Charts**: Visual representation of data with customizable metrics
-- **User Analytics**: Track user engagement, satisfaction scores, and usage patterns
-- **System Health**: Monitor API response times, error rates, and system uptime
-
 ## 🚀 Tech Stack
 
 ### Frontend
@@ -57,12 +45,6 @@
 - **n8n** - Workflow automation platform
 - **REST APIs** - Standard HTTP-based API integration
 - **WebSockets** - Real-time bidirectional communication
-
-### Styling & Animation
-- **Custom CSS Utilities** - Tailwind-inspired utility classes
-- **CSS Variables** - Theme switching support
-- **CSS Grid & Flexbox** - Modern layout systems
-- **CSS Animations** - Custom keyframe animations
 
 ## 🛠️ Installation
 
@@ -104,65 +86,5 @@ npm run build
 npm run preview
 ```
 
-## 🎨 Design System
 
-### Color Palette
-- **Primary**: `#41b883` (Vue Green)
-- **Secondary**: `#34495e` (Vue Dark Blue)
-- **Accent**: `#4fc08d` (Vue Light Green)
-- **Background**: `#f8fafc` / `#111827` (Light/Dark)
-- **Surface**: `#ffffff` / `#1f2937` (Light/Dark)
 
-### Typography
-- **Font Family**: Inter (Google Fonts)
-- **Font Weights**: 400, 500, 600, 700
-- **Scale**: 12px, 14px, 16px, 18px, 20px, 24px, 30px, 36px, 60px
-
-### Animations
-- **Fade In**: `fadeIn 0.8s ease-out`
-- **Slide Up**: `slideUp 0.6s ease-out`
-- **Slide Left/Right**: `0.8s ease-out`
-- **Hover Effects**: `transform scale(1.05)`
-
-## 📱 Screenshots
-
-### Dashboard
-The main dashboard provides an overview of your chatbot performance and system status.
-
-### Chat Interface
-Real-time chat interface with typing indicators and message history.
-
-### Analytics
-Comprehensive analytics dashboard with interactive charts and metrics.
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🙏 Acknowledgments
-
-- [Vue.js](https://vuejs.org/) - The Progressive JavaScript Framework
-- [LangChain](https://langchain.com/) - Building applications with LLMs
-- [n8n](https://n8n.io/) - Workflow automation for everyone
-- [Heroicons](https://heroicons.com/) - Beautiful hand-crafted SVG icons
-- [Inter Font](https://rsms.me/inter/) - The Inter typeface family
-
----
-
-<div align="center">
-
-**Made with ❤️ and Vue.js**
-
-⭐ Star this project if you find it helpful!
-
-</div>
