@@ -10,11 +10,8 @@
 
 **An intelligent chatbot platform that combines the power of LangChain (AI) and n8n (Workflow) to create intelligent conversations and automated actions.**
 
-[Live Demo](http://localhost:5173) • [Features](#features) • [Installation](#installation)
-
 </div>
 
----
 
 ## ✨ Features
 
