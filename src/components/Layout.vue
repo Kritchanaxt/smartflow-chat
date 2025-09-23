@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
     <!-- Header -->
-    <header 
+    <header
       v-if="!isChatViewOnMobile"
       class="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700 transition-all duration-300"
     >
@@ -25,8 +25,8 @@
               :key="item.name"
               :to="item.href"
               class="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              :class="$route.path === item.href 
-                ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-900/20' 
+              :class="$route.path === item.href
+                ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-900/20'
                 : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'"
             >
               <component :is="item.icon" class="h-5 w-5" />
@@ -75,8 +75,8 @@
               :to="item.href"
               @click="mobileMenuOpen = false"
               class="flex items-center space-x-3 px-3 py-2 rounded-lg text-base font-medium transition-all duration-200"
-              :class="$route.path === item.href 
-                ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-900/20' 
+              :class="$route.path === item.href
+                ? 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-900/20'
                 : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'"
             >
               <component :is="item.icon" class="h-6 w-6" />
@@ -101,13 +101,13 @@
     </main>
 
     <!-- Footer -->
-    <footer 
+    <footer
       v-if="!isChatViewOnMobile"
-      class="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 border-t border-gray-700 dark:border-gray-800"
+      class="relative bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 border-t border-gray-300 dark:border-gray-800"
     >
       <!-- Decorative gradient overlay -->
-      <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-green-600/10 gradient-pulse"></div>
-      
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-green-600/10 dark:from-blue-600/10 dark:via-purple-600/10 dark:to-green-600/10 gradient-pulse"></div>
+
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         <!-- Main footer content -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
@@ -118,18 +118,18 @@
                 <ChatBubbleLeftRightIcon class="h-6 w-6 text-white" />
               </div>
               <div>
-                <h3 class="text-lg font-bold text-white">SmartFlow Chat</h3>
-                <p class="text-xs text-gray-300">AI-Powered Platform</p>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">SmartFlow Chat</h3>
+                <p class="text-xs text-gray-600 dark:text-gray-300">AI-Powered Platform</p>
               </div>
             </div>
-            <p class="text-sm text-gray-300 text-center md:text-left max-w-xs">
+            <p class="text-sm text-gray-600 dark:text-gray-300 text-center md:text-left max-w-xs">
               Building intelligent conversations with the power of modern AI technology.
             </p>
           </div>
 
           <!-- Quick links -->
           <div class="flex flex-col items-center md:items-start">
-            <h4 class="text-sm font-semibold text-white mb-4 flex items-center">
+            <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
               <span class="w-2 h-2 bg-gradient-vue rounded-full mr-2"></span>
               Quick Links
             </h4>
@@ -151,7 +151,7 @@
 
           <!-- Resources -->
           <div class="flex flex-col items-center md:items-start">
-            <h4 class="text-sm font-semibold text-white mb-4 flex items-center">
+            <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
               <span class="w-2 h-2 bg-gradient-vue rounded-full mr-2"></span>
               Resources
             </h4>
@@ -179,15 +179,15 @@
         </div>
 
         <!-- Divider -->
-        <div class="border-t border-gray-700/50 mb-6"></div>
+        <div class="border-t border-gray-300 dark:border-gray-700/50 mb-6"></div>
 
         <!-- Bottom section -->
         <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <div class="flex items-center space-x-4 text-sm text-gray-400">
+          <div class="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
             <span>© 2025 SmartFlow Chat</span>
           </div>
         </div>
-        
+
       </div>
     </footer>
   </div>
@@ -265,11 +265,11 @@ onMounted(() => {
   } else {
     isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
   }
-  
+
   if (isDark.value) {
     document.documentElement.classList.add('dark')
   }
-  
+
   // Initialize mobile detection
   checkMobile()
   window.addEventListener('resize', handleResize)

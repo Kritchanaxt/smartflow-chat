@@ -137,7 +137,7 @@ html, body {
   .responsive-container {
     max-width: 1200px;
   }
-  
+
   /* Enhanced spacing for large screens */
   .responsive-padding {
     padding: 2rem;
@@ -148,7 +148,7 @@ html, body {
   .responsive-container {
     max-width: 1280px;
   }
-  
+
   .responsive-padding {
     padding: 2.5rem;
   }
@@ -159,7 +159,7 @@ html, body {
   .responsive-container {
     max-width: 1440px;
   }
-  
+
   .responsive-padding {
     padding: 3rem;
   }
@@ -171,14 +171,23 @@ html, body {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #d1d5db;
+  color: #374151; /* dark gray for light theme */
   transition: all 0.2s ease;
   text-decoration: none;
 }
 
+.dark .footer-link {
+  color: #d1d5db; /* light gray for dark theme */
+}
+
 .footer-link:hover {
-  color: #ffffff;
+  color: #111827; /* darker on hover in light theme */
   transform: translateX(0.25rem);
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+}
+
+.dark .footer-link:hover {
+  color: #ffffff; /* white on hover in dark theme */
   text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
 }
 
