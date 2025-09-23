@@ -12,146 +12,208 @@
         <!-- Profile Settings -->
         <div class="settings-card">
           <div class="settings-header">
-            <UserIcon class="settings-icon text-blue-600 dark:text-blue-400" />
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Profile Settings</h3>
+            <div class="flex items-center">
+              <UserIcon class="settings-icon text-blue-600 dark:text-blue-400" />
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Profile Settings</h3>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2 sm:gap-2">
+              <button
+                v-if="!isEditingProfile"
+                @click="startEditingProfile"
+                title="Edit your profile information"
+                class="flex items-center justify-center sm:justify-start gap-2 px-4 py-2 sm:px-3 sm:py-1.5 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-800/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700 rounded-lg sm:rounded-md transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md active:scale-95 min-w-[80px] sm:min-w-0"
+              >
+                <PencilIcon class="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                <span class="hidden sm:inline">Edit</span>
+                <span class="sm:hidden">Edit Profile</span>
+              </button>
+              <template v-else>
+                <button
+                  @click="saveProfile"
+                  title="Save changes to your profile"
+                  class="flex items-center justify-center sm:justify-start gap-2 px-4 py-2 sm:px-3 sm:py-1.5 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:hover:bg-green-800/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-700 rounded-lg sm:rounded-md transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md active:scale-95 min-w-[80px] sm:min-w-0"
+                >
+                  <CheckIcon class="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                  <span>Save</span>
+                </button>
+                <button
+                  @click="cancelEditingProfile"
+                  title="Cancel editing and discard changes"
+                  class="flex items-center justify-center sm:justify-start gap-2 px-4 py-2 sm:px-3 sm:py-1.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-800/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-700 rounded-lg sm:rounded-md transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md active:scale-95 min-w-[80px] sm:min-w-0"
+                >
+                  <XMarkIcon class="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                  <span>Cancel</span>
+                </button>
+              </template>
+            </div>
           </div>
           <div class="space-y-4">
+            <!-- Display Name -->
             <div class="settings-item">
               <label class="settings-label">Display Name</label>
-              <input type="text" class="settings-input" placeholder="Your display name" value="John Doe" />
+              <input
+                type="text"
+                class="settings-input"
+                :class="{ 'settings-input-readonly': !isEditingProfile }"
+                placeholder="Your display name"
+                v-model="profile.displayName"
+                :readonly="!isEditingProfile"
+              />
             </div>
+
+            <!-- Email -->
             <div class="settings-item">
-              <label class="settings-label">Email</label>
-              <input type="email" class="settings-input" placeholder="your.email@example.com" value="john@example.com" />
+              <label class="settings-label">Email Address</label>
+              <input
+                type="email"
+                class="settings-input"
+                :class="{ 'settings-input-readonly': !isEditingProfile }"
+                placeholder="your.email@example.com"
+                v-model="profile.email"
+                :readonly="!isEditingProfile"
+              />
+            </div>
+
+            <!-- Username -->
+            <div class="settings-item">
+              <label class="settings-label">Username</label>
+              <input
+                type="text"
+                class="settings-input"
+                :class="{ 'settings-input-readonly': !isEditingProfile }"
+                placeholder="Your unique username"
+                v-model="profile.username"
+                :readonly="!isEditingProfile"
+              />
+            </div>
+
+            <!-- Bio -->
+            <div class="settings-item">
+              <label class="settings-label">Bio</label>
+              <textarea
+                class="settings-input min-h-[80px] resize-none"
+                :class="{ 'settings-input-readonly': !isEditingProfile }"
+                placeholder="Tell us about yourself..."
+                v-model="profile.bio"
+                :readonly="!isEditingProfile"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <!-- Location -->
+            <div class="settings-item">
+              <label class="settings-label">Location</label>
+              <input
+                type="text"
+                class="settings-input"
+                :class="{ 'settings-input-readonly': !isEditingProfile }"
+                placeholder="Your location"
+                v-model="profile.location"
+                :readonly="!isEditingProfile"
+              />
             </div>
           </div>
         </div>
 
-        <!-- Chat Preferences -->
+        <!-- AI Model Settings -->
         <div class="settings-card">
           <div class="settings-header">
-            <ChatBubbleOvalLeftEllipsisIcon class="settings-icon text-green-600 dark:text-green-400" />
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Chat Preferences</h3>
+            <CpuChipIcon class="settings-icon text-purple-600 dark:text-purple-400" />
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">AI Model Preferences</h3>
           </div>
           <div class="space-y-4">
-            <div class="settings-toggle">
-              <div>
-                <label class="settings-label">Auto-save Conversations</label>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Automatically save your chat history</p>
-              </div>
-              <button class="toggle-button toggle-active">
-                <span class="toggle-switch"></span>
-              </button>
-            </div>
-            <div class="settings-toggle">
-              <div>
-                <label class="settings-label">Sound Notifications</label>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Play sound when receiving messages</p>
-              </div>
-              <button class="toggle-button">
-                <span class="toggle-switch"></span>
-              </button>
-            </div>
             <div class="settings-item">
               <label class="settings-label">Default AI Model</label>
-              <select class="settings-select">
-                <option>GPT-4</option>
-                <option>GPT-3.5</option>
-                <option>Claude</option>
+              <select class="settings-select" v-model="aiSettings.selectedModel">
+                <option value="chatgpt-4.1">ChatGPT 4.1 (Latest)</option>
+                <option value="chatgpt-4">ChatGPT 4.0</option>
+                <option value="claude-3.5">Claude 3.5 Sonnet</option>
+                <option value="gemini-pro">Google Gemini Pro</option>
+                <option value="llama-3">Meta Llama 3</option>
+              </select>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Choose your preferred AI model for conversations</p>
+            </div>
+
+            <div class="settings-item">
+              <label class="settings-label">Response Style</label>
+              <select class="settings-select" v-model="aiSettings.responseStyle">
+                <option value="balanced">Balanced</option>
+                <option value="creative">Creative</option>
+                <option value="precise">Precise</option>
+                <option value="casual">Casual</option>
+              </select>
+            </div>
+
+            <div class="settings-item">
+              <label class="settings-label">Max Response Length</label>
+              <select class="settings-select" v-model="aiSettings.maxLength">
+                <option value="short">Short (1-2 paragraphs)</option>
+                <option value="medium">Medium (3-5 paragraphs)</option>
+                <option value="long">Long (6+ paragraphs)</option>
               </select>
             </div>
           </div>
         </div>
 
-        <!-- Appearance -->
-        <div class="settings-card">
-          <div class="settings-header">
-            <SunIcon class="settings-icon text-yellow-600 dark:text-yellow-400" />
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Appearance</h3>
-          </div>
-          <div class="space-y-4">
-            <div class="settings-item">
-              <label class="settings-label">Theme</label>
-              <div class="theme-options">
-                <button class="theme-option theme-option-active">
-                  <SunIcon class="h-5 w-5" />
-                  Light
-                </button>
-                <button class="theme-option">
-                  <MoonIcon class="h-5 w-5" />
-                  Dark
-                </button>
-                <button class="theme-option">
-                  <CogIcon class="h-5 w-5" />
-                  Auto
-                </button>
-              </div>
-            </div>
-            <div class="settings-item">
-              <label class="settings-label">Font Size</label>
-              <select class="settings-select">
-                <option>Small</option>
-                <option selected>Medium</option>
-                <option>Large</option>
-              </select>
-            </div>
-          </div>
-        </div>
 
-        <!-- Privacy & Security -->
-        <div class="settings-card">
-          <div class="settings-header">
-            <ShieldCheckIcon class="settings-icon text-purple-600 dark:text-purple-400" />
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Privacy & Security</h3>
-          </div>
-          <div class="space-y-4">
-            <div class="settings-toggle">
-              <div>
-                <label class="settings-label">Data Encryption</label>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Encrypt all your conversations</p>
-              </div>
-              <button class="toggle-button toggle-active">
-                <span class="toggle-switch"></span>
-              </button>
-            </div>
-            <div class="settings-toggle">
-              <div>
-                <label class="settings-label">Analytics Sharing</label>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Share anonymous usage data to improve the service</p>
-              </div>
-              <button class="toggle-button toggle-active">
-                <span class="toggle-switch"></span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="settings-actions">
-          <button class="action-button action-button-primary">
-            Save Changes
-          </button>
-          <button class="action-button action-button-secondary">
-            Reset to Default
-          </button>
-          <button class="action-button action-button-danger">
-            Delete Account
-          </button>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import {
   UserIcon,
-  ChatBubbleOvalLeftEllipsisIcon,
-  SunIcon,
-  MoonIcon,
-  CogIcon,
-  ShieldCheckIcon,
+  PencilIcon,
+  CheckIcon,
+  XMarkIcon,
+  CpuChipIcon,
 } from '@heroicons/vue/24/outline'
+
+// Reactive states
+const isEditingProfile = ref(false)
+const originalProfile = ref({
+  displayName: '',
+  email: '',
+  username: '',
+  bio: '',
+  location: ''
+})
+
+// Profile data with extended fields
+const profile = ref({
+  displayName: 'John Doe',
+  email: 'john@example.com',
+  username: 'johndoe123',
+  bio: 'AI enthusiast and tech lover. Always excited to explore new possibilities with SmartFlow Chat!',
+  location: 'Bangkok, Thailand'
+})
+
+// AI Model Settings
+const aiSettings = ref({
+  selectedModel: 'chatgpt-4.1',
+  responseStyle: 'balanced',
+  maxLength: 'medium'
+})
+
+// Functions
+const startEditingProfile = () => {
+  originalProfile.value = { ...profile.value }
+  isEditingProfile.value = true
+}
+
+const saveProfile = () => {
+  // Here you would typically save to a backend API
+  console.log('Saving profile:', profile.value)
+  isEditingProfile.value = false
+  // You could add a success notification here
+}
+
+const cancelEditingProfile = () => {
+  profile.value = { ...originalProfile.value }
+  isEditingProfile.value = false
+}
 </script>
 
 <style scoped>
@@ -160,44 +222,29 @@ import {
 .settings-card {
   background-color: white;
   border-radius: 0.75rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
   padding: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+  transition: all 0.2s ease;
+  border: 1px solid rgb(229 231 235);
 }
 
 .dark .settings-card {
   background-color: rgb(31 41 55);
-}
-
-.settings-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(65, 184, 131, 0.05), transparent);
-  transition: left 0.5s ease;
-}
-
-.settings-card:hover::before {
-  left: 100%;
+  border-color: rgb(75 85 99);
 }
 
 .settings-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .dark .settings-card:hover {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .settings-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgb(229 231 235);
@@ -215,7 +262,7 @@ import {
 }
 
 .settings-card:hover .settings-icon {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.05);
 }
 
 .settings-item {
@@ -245,192 +292,61 @@ import {
   outline: none;
 }
 
+.settings-input-readonly {
+  background-color: rgb(249 250 251);
+  cursor: default;
+}
+
+.dark .settings-input-readonly {
+  background-color: rgb(31 41 55);
+}
+
 .dark .settings-input, .dark .settings-select {
   background-color: rgb(55 65 81);
   border-color: rgb(75 85 99);
   color: white;
 }
 
-.settings-input:hover, .settings-select:hover {
-  border-color: #41b883;
-  transform: scale(1.02);
+.settings-input:hover:not(.settings-input-readonly), .settings-select:hover {
+  border-color: rgb(59 130 246);
+  transform: scale(1.01);
 }
 
 .settings-input:focus, .settings-select:focus {
-  border-color: #41b883;
-  box-shadow: 0 0 0 3px rgba(65, 184, 131, 0.1);
-  transform: scale(1.02);
-}
-
-.settings-toggle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.settings-toggle:hover {
-  background-color: rgb(249 250 251);
-  transform: translateX(4px);
-}
-
-.dark .settings-toggle:hover {
-  background-color: rgb(55 65 81);
-}
-
-.toggle-button {
-  position: relative;
-  width: 3rem;
-  height: 1.5rem;
-  background-color: rgb(209 213 219);
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  outline: none;
-}
-
-.toggle-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.toggle-active {
-  background: linear-gradient(135deg, #41b883, #4fc08d);
-}
-
-.toggle-switch {
-  position: absolute;
-  top: 0.125rem;
-  left: 0.125rem;
-  width: 1.25rem;
-  height: 1.25rem;
-  background-color: white;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.toggle-active .toggle-switch {
-  transform: translateX(1.5rem);
-}
-
-.toggle-button:hover .toggle-switch {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.theme-options {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.theme-option {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid rgb(209 213 219);
-  border-radius: 0.5rem;
-  background-color: white;
-  color: rgb(55 65 81);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  outline: none;
-}
-
-.dark .theme-option {
-  background-color: rgb(55 65 81);
-  border-color: rgb(75 85 99);
-  color: rgb(209 213 219);
-}
-
-.theme-option:hover {
-  border-color: #41b883;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(65, 184, 131, 0.15);
-}
-
-.theme-option-active {
-  background: linear-gradient(135deg, #41b883, #4fc08d);
-  color: white;
-  border-color: #41b883;
-}
-
-.theme-option-active:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(65, 184, 131, 0.3);
-}
-
-.settings-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  padding-top: 2rem;
-}
-
-.action-button {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  outline: none;
-  border: none;
-}
-
-.action-button:hover {
-  transform: translateY(-2px);
-}
-
-.action-button-primary {
-  background: linear-gradient(135deg, #41b883, #4fc08d);
-  color: white;
-}
-
-.action-button-primary:hover {
-  box-shadow: 0 8px 25px rgba(65, 184, 131, 0.3);
-  filter: brightness(1.1);
-}
-
-.action-button-secondary {
-  background-color: rgb(229 231 235);
-  color: rgb(55 65 81);
-}
-
-.dark .action-button-secondary {
-  background-color: rgb(75 85 99);
-  color: rgb(209 213 219);
-}
-
-.action-button-secondary:hover {
-  background-color: rgb(209 213 219);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.dark .action-button-secondary:hover {
-  background-color: rgb(107 114 128);
-}
-
-.action-button-danger {
-  background-color: rgb(239 68 68);
-  color: white;
-}
-
-.action-button-danger:hover {
-  background-color: rgb(220 38 38);
-  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+  border-color: rgb(59 130 246);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  transform: scale(1.01);
 }
 
 @media (max-width: 640px) {
-  .settings-actions {
-    flex-direction: column;
+  .settings-card {
+    padding: 1rem;
   }
-  
-  .theme-options {
+
+  .settings-header {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .settings-header h3 {
+    margin-left: 0;
+  }
+
+  .settings-icon {
+    margin-right: 0.5rem;
+  }
+
+  /* Ensure buttons stack properly on mobile */
+  .settings-header > div:last-child {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-input, .settings-select {
+    font-size: 16px;
+    padding: 0.875rem 1rem;
   }
 }
 </style>
