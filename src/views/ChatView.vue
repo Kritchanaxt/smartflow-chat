@@ -5,18 +5,28 @@
     <div class="mobile-header md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
       <div class="flex items-center justify-between">
         <button
-          @click="goBack"
-          class="header-button header-button-back"
-        >
-          <ArrowLeftIcon class="h-5 w-5" />
-        </button>
-        <h1 class="text-lg font-semibold text-gray-900 dark:text-white">SmartFlow Chat</h1>
-        <button
           @click="toggleSidebar"
-          class="header-button header-button-menu"
+          class="header-button header-button-conversations"
         >
-          <Bars3Icon class="h-5 w-5" />
+          <ChatBubbleLeftRightIcon class="h-5 w-5" />
+          <span class="ml-2 text-sm font-medium">Conversations</span>
         </button>
+        <h1 class="text-lg font-semibold text-gray-900 dark:text-white flex-1 text-center">SmartFlow Chat</h1>
+        <div class="flex items-center space-x-2">
+          <button
+            @click="toggleTheme"
+            class="header-button header-button-theme"
+          >
+            <SunIcon v-if="isDark" class="h-5 w-5" />
+            <MoonIcon v-else class="h-5 w-5" />
+          </button>
+          <button
+            @click="toggleNavigationMenu"
+            class="header-button header-button-menu"
+          >
+            <Bars3Icon class="h-5 w-5" />
+          </button>
+        </div>
       </div>
     </div>
 
@@ -26,6 +36,55 @@
       @click="closeSidebar"
       class="sidebar-overlay md:hidden"
     ></div>
+
+    <!-- Navigation Menu Overlay (mobile only) -->
+    <div
+      v-if="navigationMenuOpen"
+      @click="closeNavigationMenu"
+      class="navigation-overlay md:hidden"
+    >
+      <div class="navigation-menu" @click.stop>
+        <div class="navigation-header">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Menu</h3>
+          <button
+            @click="closeNavigationMenu"
+            class="header-button header-button-close"
+          >
+            <XMarkIcon class="h-5 w-5" />
+          </button>
+        </div>
+        <nav class="navigation-links">
+          <router-link
+            to="/"
+            @click="closeNavigationMenu"
+            class="navigation-link"
+          >
+            <span>Dashboard</span>
+          </router-link>
+          <router-link
+            to="/chat"
+            @click="closeNavigationMenu"
+            class="navigation-link navigation-link-active"
+          >
+            <span>Chat</span>
+          </router-link>
+          <router-link
+            to="/analytics"
+            @click="closeNavigationMenu"
+            class="navigation-link"
+          >
+            <span>Analytics</span>
+          </router-link>
+          <router-link
+            to="/about"
+            @click="closeNavigationMenu"
+            class="navigation-link"
+          >
+            <span>Settings</span>
+          </router-link>
+        </nav>
+      </div>
+    </div>
 
     <!-- Chat Sidebar -->
     <div
@@ -190,7 +249,6 @@
 
 <script setup lang="ts">
 import { ref, nextTick, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
 import {
   ChatBubbleLeftRightIcon,
   CpuChipIcon,
@@ -200,7 +258,8 @@ import {
   CogIcon,
   Bars3Icon,
   XMarkIcon,
-  ArrowLeftIcon,
+  SunIcon,
+  MoonIcon,
 } from '@heroicons/vue/24/outline'
 
 interface Message {
@@ -217,12 +276,13 @@ interface Chat {
   time: string
 }
 
-const router = useRouter()
 const selectedChatId = ref(1)
 const newMessage = ref('')
 const isTyping = ref(false)
 const messagesContainer = ref<HTMLElement>()
 const sidebarOpen = ref(false)
+const navigationMenuOpen = ref(false)
+const isDark = ref(false)
 
 const chats = ref<Chat[]>([
   {
@@ -308,7 +368,7 @@ const sendMessage = async () => {
 
 const generateBotResponse = (userMessage: string): string => {
   const responses = [
-    'I understand your request. Let me help you with that step by step.',
+    `I understand your request about "${userMessage.slice(0, 50)}${userMessage.length > 50 ? '...' : ''}". Let me help you with that step by step.`,
     'That\'s a great question! Here\'s what I recommend...',
     'Based on your needs, I suggest we start by configuring the workflow triggers.',
     'I can help you integrate that with our API. Let me show you the documentation.',
@@ -359,10 +419,6 @@ const closeSidebar = () => {
   sidebarOpen.value = false
 }
 
-const goBack = () => {
-  router.push('/')
-}
-
 // Close sidebar when clicking on a chat (mobile)
 const selectChat = (chatId: number) => {
   selectedChatId.value = chatId
@@ -370,6 +426,24 @@ const selectChat = (chatId: number) => {
     sidebarOpen.value = false
   }
   // In a real app, you would load messages for the selected chat
+}
+
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+  // Here you would implement actual theme switching logic
+  if (isDark.value) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+}
+
+const toggleNavigationMenu = () => {
+  navigationMenuOpen.value = !navigationMenuOpen.value
+}
+
+const closeNavigationMenu = () => {
+  navigationMenuOpen.value = false
 }
 
 // Handle window resize
@@ -382,6 +456,10 @@ const handleResize = () => {
 onMounted(() => {
   scrollToBottom()
   window.addEventListener('resize', handleResize)
+
+  // Detect initial theme
+  isDark.value = document.documentElement.classList.contains('dark') ||
+    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
 })
 
 onUnmounted(() => {
@@ -413,6 +491,27 @@ onUnmounted(() => {
   z-index: 20;
 }
 
+.mobile-header h1 {
+  margin: 0 1rem;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .header-button-conversations span {
+    display: none;
+  }
+
+  .header-button-conversations {
+    padding: 0.625rem;
+    min-width: auto;
+  }
+
+  .mobile-header h1 {
+    font-size: 1rem;
+    margin: 0 0.5rem;
+  }
+}
+
 /* Header Buttons - Base Styles */
 .header-button {
   display: flex;
@@ -431,6 +530,42 @@ onUnmounted(() => {
 .header-button:focus-visible {
   outline: 2px solid #41b883;
   outline-offset: 2px;
+}
+
+/* Conversations Button */
+.header-button-conversations {
+  background: linear-gradient(135deg, rgba(65, 184, 131, 0.1), rgba(79, 192, 141, 0.1));
+  color: #41b883;
+  border: 1px solid rgba(65, 184, 131, 0.2);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-button-conversations:hover {
+  background: linear-gradient(135deg, rgba(65, 184, 131, 0.15), rgba(79, 192, 141, 0.15));
+  border-color: rgba(65, 184, 131, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(65, 184, 131, 0.15);
+}
+
+.header-button-conversations:active {
+  transform: scale(1.02);
+  background: linear-gradient(135deg, rgba(65, 184, 131, 0.2), rgba(79, 192, 141, 0.2));
+}
+
+.dark .header-button-conversations {
+  color: #4fc08d;
+  background: linear-gradient(135deg, rgba(79, 192, 141, 0.1), rgba(65, 184, 131, 0.1));
+  border-color: rgba(79, 192, 141, 0.2);
+}
+
+.dark .header-button-conversations:hover {
+  background: linear-gradient(135deg, rgba(79, 192, 141, 0.15), rgba(65, 184, 131, 0.15));
+  border-color: rgba(79, 192, 141, 0.3);
+  box-shadow: 0 4px 12px rgba(79, 192, 141, 0.15);
 }
 
 /* Back Button */
@@ -462,6 +597,37 @@ onUnmounted(() => {
   background: linear-gradient(135deg, rgba(79, 192, 141, 0.15), rgba(65, 184, 131, 0.15));
   border-color: rgba(79, 192, 141, 0.3);
   box-shadow: 0 4px 12px rgba(79, 192, 141, 0.15);
+}
+
+/* Theme Button */
+.header-button-theme {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  color: #6366f1;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.header-button-theme:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: scale(1.1) rotate(180deg);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.header-button-theme:active {
+  transform: scale(1.05) rotate(180deg);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+}
+
+.dark .header-button-theme {
+  color: #fbbf24;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+.dark .header-button-theme:hover {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15));
+  border-color: rgba(251, 191, 36, 0.3);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.15);
 }
 
 /* Menu Button */
@@ -576,9 +742,131 @@ onUnmounted(() => {
 .sidebar-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 30;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Navigation Overlay */
+.navigation-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.navigation-menu {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1rem;
+  max-width: 400px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: navigationSlideIn 0.3s ease-out;
+}
+
+.dark .navigation-menu {
+  background-color: rgb(31 41 55);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+.navigation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(229 231 235);
+}
+
+.dark .navigation-header {
+  border-bottom-color: rgb(75 85 99);
+}
+
+.navigation-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navigation-link {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  color: rgb(75 85 99);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.navigation-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(65, 184, 131, 0.1), rgba(79, 192, 141, 0.1));
+  transition: width 0.3s ease;
+  border-radius: 0.75rem;
+}
+
+.navigation-link:hover::before {
+  width: 100%;
+}
+
+.navigation-link:hover {
+  color: #41b883;
+  background-color: rgba(65, 184, 131, 0.05);
+  transform: translateX(8px);
+}
+
+.dark .navigation-link {
+  color: rgb(156 163 175);
+}
+
+.dark .navigation-link:hover {
+  color: #4fc08d;
+  background-color: rgba(79, 192, 141, 0.05);
+}
+
+.navigation-link-active {
+  background: linear-gradient(135deg, rgba(65, 184, 131, 0.1), rgba(79, 192, 141, 0.05));
+  color: #41b883;
+  border: 1px solid rgba(65, 184, 131, 0.3);
+  box-shadow: 0 4px 12px rgba(65, 184, 131, 0.15);
+}
+
+.dark .navigation-link-active {
+  background: linear-gradient(135deg, rgba(79, 192, 141, 0.1), rgba(65, 184, 131, 0.05));
+  color: #4fc08d;
+  border-color: rgba(79, 192, 141, 0.3);
+  box-shadow: 0 4px 12px rgba(79, 192, 141, 0.15);
+}
+
+@keyframes navigationSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 /* Chat Sidebar */
@@ -936,6 +1224,7 @@ onUnmounted(() => {
 @supports (-webkit-touch-callout: none) {
   .message-input {
     -webkit-appearance: none;
+    appearance: none;
     border-radius: 1.5rem;
   }
 
