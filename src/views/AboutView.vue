@@ -1,3 +1,5 @@
+<!-- Settings page -->
+
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 lg:py-12 xl:py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -125,11 +127,10 @@
             <div class="settings-item">
               <label class="settings-label">Default AI Model</label>
               <select class="settings-select" v-model="aiSettings.selectedModel">
-                <option value="chatgpt-4.1">ChatGPT 4.1 (Latest)</option>
-                <option value="chatgpt-4">ChatGPT 4.0</option>
-                <option value="claude-3.5">Claude 3.5 Sonnet</option>
-                <option value="gemini-pro">Google Gemini Pro</option>
-                <option value="llama-3">Meta Llama 3</option>
+                <option value="chatgpt-4.1">ChatGPT 5 (Latest)</option>
+                <option value="chatgpt-4">ChatGPT 4.1</option>
+                <option value="claude-3.5">Claude 4 Sonnet</option>
+                <option value="gemini-pro">Gemini 2.5 Pro</option>
               </select>
               <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Choose your preferred AI model for conversations</p>
             </div>
@@ -290,6 +291,37 @@ const cancelEditingProfile = () => {
   color: rgb(17 24 39);
   transition: all 0.2s ease;
   outline: none;
+  font-size: 0.875rem;
+}
+
+/* Enhanced select styling */
+.settings-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.dark .settings-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%9ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+/* Option styling */
+.settings-select option {
+  padding: 0.5rem 1rem;
+  background-color: white;
+  color: rgb(17 24 39);
+  font-size: 0.875rem;
+}
+
+.dark .settings-select option {
+  background-color: rgb(55 65 81);
+  color: white;
 }
 
 .settings-input-readonly {
@@ -310,12 +342,22 @@ const cancelEditingProfile = () => {
 .settings-input:hover:not(.settings-input-readonly), .settings-select:hover {
   border-color: rgb(59 130 246);
   transform: scale(1.01);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
 }
 
 .settings-input:focus, .settings-select:focus {
   border-color: rgb(59 130 246);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 2px 8px rgba(59, 130, 246, 0.15);
   transform: scale(1.01);
+}
+
+/* Enhanced select focus state */
+.settings-select:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%233b82f6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+.dark .settings-select:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%3b82f6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
 }
 
 @media (max-width: 640px) {
@@ -341,12 +383,49 @@ const cancelEditingProfile = () => {
   .settings-header > div:last-child {
     width: 100%;
   }
+
+  /* Enhanced mobile select styling */
+  .settings-select {
+    font-size: 16px;
+    padding: 1rem 2.5rem 1rem 1rem;
+    background-size: 1.25em 1.25em;
+    background-position: right 0.75rem center;
+    min-height: 3rem;
+    border-width: 2px;
+  }
+
+  .settings-select option {
+    padding: 0.75rem 1rem;
+    font-size: 16px;
+    line-height: 1.5;
+  }
 }
 
 @media (max-width: 480px) {
   .settings-input, .settings-select {
     font-size: 16px;
     padding: 0.875rem 1rem;
+  }
+
+  .settings-select {
+    padding: 1rem 2.5rem 1rem 1rem;
+    min-height: 3.25rem;
+    border-radius: 0.75rem;
+  }
+
+  /* Larger touch targets on small screens */
+  .settings-select option {
+    padding: 1rem;
+    font-size: 16px;
+    min-height: 3rem;
+  }
+}
+
+/* Extra responsive improvements for tablets */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .settings-select {
+    font-size: 0.9rem;
+    padding: 0.8rem 2.25rem 0.8rem 0.9rem;
   }
 }
 </style>

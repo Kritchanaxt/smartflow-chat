@@ -1,3 +1,4 @@
+<!-- Chat Page -->
 <template>
   <div class="chat-container">
     <!-- Mobile Header (visible only on mobile) -->
@@ -27,7 +28,7 @@
     ></div>
 
     <!-- Chat Sidebar -->
-    <div 
+    <div
       class="chat-sidebar"
       :class="{
         'sidebar-open': sidebarOpen,
@@ -313,7 +314,7 @@ const generateBotResponse = (userMessage: string): string => {
     'I can help you integrate that with our API. Let me show you the documentation.',
     'That sounds like a perfect use case for our automation features!',
   ]
-  
+
   return responses[Math.floor(Math.random() * responses.length)]
 }
 
@@ -330,10 +331,10 @@ const startNewChat = () => {
     lastMessage: 'Start a new conversation',
     time: 'now',
   }
-  
+
   chats.value.unshift(newChat)
   selectedChatId.value = newChat.id
-  
+
   // Reset messages for new chat
   messages.value = [
     {
@@ -343,7 +344,7 @@ const startNewChat = () => {
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     }
   ]
-  
+
   // Close sidebar on mobile after creating new chat
   if (window.innerWidth < 768) {
     sidebarOpen.value = false
@@ -588,7 +589,7 @@ onUnmounted(() => {
   flex-direction: column;
   transition: transform 0.3s ease;
   z-index: 40;
-  
+
   /* Mobile styles */
   position: fixed;
   top: 0;
@@ -617,14 +618,14 @@ onUnmounted(() => {
   .chat-container {
     flex-direction: row;
   }
-  
+
   .chat-sidebar {
     position: relative;
     width: 320px;
     transform: translateX(0);
     z-index: auto;
   }
-  
+
   .sidebar-open,
   .sidebar-closed {
     transform: translateX(0);
@@ -642,7 +643,7 @@ onUnmounted(() => {
   .chat-sidebar {
     width: 400px;
   }
-  
+
   .message-content {
     max-width: 65%;
   }
@@ -652,15 +653,15 @@ onUnmounted(() => {
   .chat-sidebar {
     width: 450px;
   }
-  
+
   .message-content {
     max-width: 70%;
   }
-  
+
   .messages-container {
     padding: 2rem;
   }
-  
+
   .input-area {
     padding: 1.5rem;
   }
@@ -937,7 +938,7 @@ onUnmounted(() => {
     -webkit-appearance: none;
     border-radius: 1.5rem;
   }
-  
+
   .messages-container {
     -webkit-overflow-scrolling: touch;
   }

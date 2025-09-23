@@ -134,18 +134,18 @@
               Quick Links
             </h4>
             <div class="space-y-2">
-              <a href="#" class="footer-link">
+              <router-link to="/" class="footer-link">
                 <HomeIcon class="h-4 w-4" />
                 Dashboard
-              </a>
-              <a href="#" class="footer-link">
+              </router-link>
+              <router-link to="/chat" class="footer-link">
                 <ChatBubbleOvalLeftEllipsisIcon class="h-4 w-4" />
                 Start Chatting
-              </a>
-              <a href="#" class="footer-link">
+              </router-link>
+              <router-link to="/analytics" class="footer-link">
                 <ChartBarIcon class="h-4 w-4" />
                 Analytics
-              </a>
+              </router-link>
             </div>
           </div>
 
