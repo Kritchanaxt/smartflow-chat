@@ -483,6 +483,36 @@ onUnmounted(() => {
   background-color: rgb(17 24 39);
 }
 
+/* Desktop specific container styling for symmetry */
+@media (min-width: 768px) {
+  .chat-container {
+    background: linear-gradient(135deg, rgb(249 250 251) 0%, rgb(243 244 246) 50%, rgb(229 231 235) 100%);
+    padding: 0;
+  }
+
+  .dark .chat-container {
+    background: linear-gradient(135deg, rgb(17 24 39) 0%, rgb(31 41 55) 50%, rgb(55 65 81) 100%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .chat-container {
+    padding: 0.5rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+
+  .dark .chat-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+}
+
+@media (min-width: 1440px) {
+  .chat-container {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+}
+
 /* Mobile Header */
 .mobile-header {
   flex-shrink: 0;
@@ -893,6 +923,34 @@ onUnmounted(() => {
   border-right-color: rgb(75 85 99);
 }
 
+/* Desktop specific sidebar styling */
+@media (min-width: 768px) {
+  .chat-sidebar {
+    background: linear-gradient(180deg, white 0%, rgb(249 250 251) 100%);
+    border-right: 2px solid rgb(229 231 235);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .chat-sidebar {
+    background: linear-gradient(180deg, rgb(31 41 55) 0%, rgb(17 24 39) 100%);
+    border-right-color: rgb(75 85 99);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .chat-sidebar {
+    border-radius: 1rem 0 0 1rem;
+    margin: 0.5rem 0 0.5rem 0.5rem;
+    max-height: calc(100vh - 1rem);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .chat-sidebar {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  }
+}
+
 .sidebar-open {
   transform: translateX(0);
 }
@@ -905,11 +963,15 @@ onUnmounted(() => {
 @media (min-width: 768px) {
   .chat-container {
     flex-direction: row;
+    height: 100vh;
+    max-height: 100vh;
   }
 
   .chat-sidebar {
     position: relative;
-    width: 320px;
+    width: 30%;
+    min-width: 280px;
+    max-width: 380px;
     transform: translateX(0);
     z-index: auto;
   }
@@ -918,18 +980,40 @@ onUnmounted(() => {
   .sidebar-closed {
     transform: translateX(0);
   }
+
+  /* Ensure proper flex layout for desktop */
+  .chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 100vh;
+    width: 70%;
+  }
 }
 
 /* Large screen adjustments */
 @media (min-width: 1024px) {
   .chat-sidebar {
-    width: 360px;
+    width: 28%;
+    min-width: 320px;
+    max-width: 420px;
+  }
+
+  .chat-main {
+    width: 72%;
   }
 }
 
 @media (min-width: 1280px) {
   .chat-sidebar {
-    width: 400px;
+    width: 25%;
+    min-width: 350px;
+    max-width: 450px;
+  }
+
+  .chat-main {
+    width: 75%;
   }
 
   .message-content {
@@ -937,7 +1021,17 @@ onUnmounted(() => {
   }
 }
 
-@media (min-width: 1536px) {
+@media (min-width: 1440px) {
+  .chat-sidebar {
+    width: 22%;
+    min-width: 380px;
+    max-width: 480px;
+  }
+
+  .chat-main {
+    width: 78%;
+  }
+}@media (min-width: 1536px) {
   .chat-sidebar {
     width: 450px;
   }
@@ -962,9 +1056,50 @@ onUnmounted(() => {
   flex-direction: column;
   overflow: hidden;
   min-width: 0; /* Prevent flex item from overflowing */
+  min-height: 0; /* Ensure proper flex sizing */
+  background: linear-gradient(135deg, rgb(249 250 251) 0%, rgb(243 244 246) 100%);
+  position: relative;
 }
 
-/* Messages Container */
+.dark .chat-main {
+  background: linear-gradient(135deg, rgb(17 24 39) 0%, rgb(31 41 55) 100%);
+}
+
+/* Desktop specific styling for proper visibility */
+@media (min-width: 768px) {
+  .chat-main {
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    justify-content: space-between;
+  }
+
+  /* Ensure input area is always visible on desktop */
+  .input-area {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-top: auto;
+  }
+
+  .dark .input-area {
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.3), 0 -2px 4px -1px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .chat-main {
+    border-radius: 0 1rem 1rem 0;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    max-height: calc(100vh - 1rem);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .chat-main {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  }
+}/* Messages Container */
 .messages-container {
   flex: 1;
   overflow-y: auto;
@@ -972,9 +1107,43 @@ onUnmounted(() => {
   padding-bottom: 0.5rem;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   scroll-behavior: smooth;
+  min-height: 0; /* Allow flex item to shrink */
 }
 
-/* Message Wrapper */
+/* Desktop specific adjustments for better input visibility */
+@media (min-width: 768px) {
+  .messages-container {
+    padding: 1.5rem;
+    padding-bottom: 120px; /* Reserve space for input area */
+    max-height: calc(100vh - 120px);
+  }
+
+  /* When header is visible on desktop */
+  .chat-main .messages-container {
+    padding-bottom: 140px;
+    max-height: calc(100vh - 200px); /* Account for desktop header + input area */
+  }
+}
+
+@media (min-width: 1024px) {
+  .messages-container {
+    padding: 2rem;
+    padding-bottom: 130px;
+    max-height: calc(100vh - 130px);
+  }
+
+  .chat-main .messages-container {
+    padding-bottom: 150px;
+    max-height: calc(100vh - 220px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .messages-container {
+    padding: 2rem 3rem;
+    padding-bottom: 140px;
+  }
+}/* Message Wrapper */
 .message-wrapper {
   display: flex;
   margin-bottom: 1rem;
@@ -1089,6 +1258,8 @@ onUnmounted(() => {
   border-top: 1px solid rgb(229 231 235);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .dark .input-area {
@@ -1096,8 +1267,47 @@ onUnmounted(() => {
   border-top-color: rgb(75 85 99);
 }
 
+/* Desktop specific input area styling */
+@media (min-width: 768px) {
+  .input-area {
+    padding: 1.5rem;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 250, 251, 0.95) 100%);
+    border-top: 2px solid rgb(229 231 235);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    position: absolute;
+    bottom: 5rem;
+    left: 0;
+    right: 0;
+  }
+
+  .dark .input-area {
+    background: linear-gradient(180deg, rgba(31, 41, 55, 0.98) 0%, rgba(17, 24, 39, 0.95) 100%);
+    border-top-color: rgb(75 85 99);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .input-area {
+    padding: 1.5rem 2rem;
+    min-height: 90px;
+    border-radius: 0 0 1rem 1rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .input-area {
+    padding: 1.5rem 3rem;
+    min-height: 100px;
+  }
+}
+
 /* Input Container */
 .input-container {
+  width: 100%;
   max-width: 100%;
 }
 
@@ -1106,6 +1316,7 @@ onUnmounted(() => {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 /* Message Input */
@@ -1122,6 +1333,7 @@ onUnmounted(() => {
   outline: none;
   -webkit-appearance: none;
   appearance: none;
+  box-sizing: border-box;
 }
 
 .message-input::placeholder {
@@ -1149,6 +1361,53 @@ onUnmounted(() => {
   box-shadow: 0 0 0 3px rgba(79, 192, 141, 0.1);
 }
 
+/* Desktop specific input styling for better visibility */
+@media (min-width: 768px) {
+  .message-input {
+    padding: 0.875rem 3.5rem 0.875rem 1.25rem;
+    font-size: 0.95rem;
+    border-radius: 1.75rem;
+    min-height: 48px;
+    border: 2px solid rgb(229 231 235);
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .message-input:focus {
+    border-color: #41b883;
+    box-shadow: 0 0 0 3px rgba(65, 184, 131, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: none;
+  }
+
+  .dark .message-input {
+    background-color: rgb(55 65 81);
+    border-color: rgb(75 85 99);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .dark .message-input:focus {
+    border-color: #4fc08d;
+    box-shadow: 0 0 0 3px rgba(79, 192, 141, 0.1), 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .message-input {
+    padding: 1rem 4rem 1rem 1.5rem;
+    font-size: 1rem;
+    min-height: 52px;
+    border-radius: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .message-input {
+    padding: 1.125rem 4.5rem 1.125rem 1.75rem;
+    font-size: 1.05rem;
+    min-height: 56px;
+  }
+}
+
 /* Send Button */
 .send-button {
   position: absolute;
@@ -1165,6 +1424,8 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
 }
 
 .send-button:hover:not(:disabled) {
@@ -1176,6 +1437,40 @@ onUnmounted(() => {
   opacity: 0.5;
   cursor: not-allowed;
   transform: translateY(-50%) scale(1);
+}
+
+/* Desktop specific send button styling */
+@media (min-width: 768px) {
+  .send-button {
+    right: 0.5rem;
+    padding: 0.75rem;
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 2px 4px rgba(65, 184, 131, 0.2);
+  }
+
+  .send-button:hover:not(:disabled) {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 8px rgba(65, 184, 131, 0.3);
+  }
+}
+
+@media (min-width: 1024px) {
+  .send-button {
+    right: 0.75rem;
+    padding: 0.875rem;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .send-button {
+    right: 1rem;
+    padding: 1rem;
+    width: 52px;
+    height: 52px;
+  }
 }
 
 /* Animations */
@@ -1295,6 +1590,22 @@ onUnmounted(() => {
   margin-bottom: 0.5rem;
 }
 
+/* Desktop specific chat item styling */
+@media (min-width: 768px) {
+  .chat-item {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chat-item {
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+  }
+}
+
 .chat-item::before {
   content: '';
   position: absolute;
@@ -1390,6 +1701,13 @@ onUnmounted(() => {
 
 .dark .message-input:focus {
   box-shadow: 0 0 0 3px rgba(79, 192, 141, 0.1), 0 8px 25px rgba(79, 192, 141, 0.15);
+}
+
+/* Override focus transform for desktop to maintain consistent sizing */
+@media (min-width: 768px) {
+  .message-input:focus {
+    transform: none;
+  }
 }
 
 /* Send Button Enhanced */
